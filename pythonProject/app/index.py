@@ -14,6 +14,12 @@ def index():
     total = Dao.count_product()
     return render_template("index.html", categories = cates,
                            products = prods, pages= math.ceil(total/app.config["PAGE_SIZE"]))
+
+@app.route("/Login")
+def Login_process():
+    return render_template('Login.html')
+
+
 if __name__ == '__main__':
 
     app.run(debug= True)
