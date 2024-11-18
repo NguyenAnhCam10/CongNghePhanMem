@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 from urllib.parse import quote
@@ -7,3 +8,4 @@ app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = True
 app.config["PAGE_SIZE"] = 1
 
 db = SQLAlchemy(app)
+login = LoginManager(app)
