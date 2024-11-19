@@ -20,6 +20,8 @@ class User(db.Model, UserMixin):
 
     user_role = Column(Enum(UserRole), default=UserRole.USER)
 
+
+
 class Category(db.Model):
     id = Column(Integer, primary_key = True, autoincrement= True)
     name = Column(String(50), nullable= False, unique = True)
@@ -42,7 +44,7 @@ class Product(db.Model):
 if __name__ == '__main__':
     with app.app_context():
         db.create_all()
-        u = User(name='admin', username='admin', password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),
+        u = User(name='admi', username='admim1', password=str(hashlib.md5('123456'.encode('utf-8')).hexdigest()),
                  user_role=UserRole.ADMIN)
         db.session.add(u)
         db.session.commit()

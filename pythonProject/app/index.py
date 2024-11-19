@@ -29,7 +29,7 @@ def Login_process():
 
 @login.user_loader
 def load_user(user_id):
-    return Dao.get_user_by_id(user_id )
+    return Dao.get_user_by_id(user_id)
 if __name__ == '__main__':
 
     app.run(debug= True)
