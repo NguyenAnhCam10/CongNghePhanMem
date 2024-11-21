@@ -8,7 +8,7 @@ from flask_login import UserMixin
 class UserRole(RoleEnum):
     ADMIN = 1
     USER = 2
-    #hhhgit
+
 class User(db.Model, UserMixin):
     id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column (String(255), nullable= False)

@@ -1,6 +1,8 @@
 import math
 
 from flask import render_template, request, redirect
+from sqlalchemy.testing.provision import register
+
 from app import app, login
 import Dao
 from flask_login import login_user, logout_user
@@ -26,6 +28,31 @@ def Login_process():
             login_user(u)
             return redirect('/')
     return render_template('Login.html')
+
+@app.route("/logout")
+def logout_process():
+    logout_user()
+
+    return redirect("/Login")
+@app.route("/register", methods=['get', 'post'])
+def register_process():
+    err_msg =''
+    if request.method.__eq__ ('POST'):
+        password = request.form.get('password')
+        confirm = request.form.get('confirm')
+        if password.__eq__(confirm):
+            data = request.form.copy()
+            del data['confirm']
+            avatar = request.files.get('avatar')
+            Dao.add_user(avatar = avatar, **data)
+
+            return redirect( '/Login')
+        else:
+            err_msg = 'Mật khẩu không khớp!'
+
+
+    return render_template("register.html", err_msg = err_msg)
+
 
 @login.user_loader
 def load_user(user_id):

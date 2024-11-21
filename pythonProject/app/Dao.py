@@ -1,7 +1,7 @@
 from itertools import product
-from app import app
+from app import app, db
 from app.model import Category, Product, User
-import hashlib
+import hashlib, cloudinary.uploader
 
 def load_categoreis():
     return Category.query.order_by().all()
@@ -28,5 +28,15 @@ def auth_user (username, password):
     return User.query.filter(User.username.__eq__(username.strip()),
                              User.password.__eq__(password)).first()
 
+# Thêm khi đăng ký
+def add_user(name, username, password, avatar):
+    password =  str(hashlib.md5(password.strip().encode('utf-8')).hexdigest())
+    u = User(name = name, username = username, password = password,
+             avatar =  "https://res.cloudinary.com/dxxwcby8l/image/upload/v1646729533/zuur9gzztcekmyfenkfr.jpg")
+    if avatar:
+        res = cloudinary.uploader.upload(avatar)
+        u.avatar = res.get('secure_url')
+    db.session.add(u)
+    db.session.commit()
 def get_user_by_id(id):
     return User.query.get(id)
