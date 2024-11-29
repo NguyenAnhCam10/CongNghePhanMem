@@ -6,6 +6,7 @@ from sqlalchemy.testing.provision import register
 from app import app, login
 import Dao
 from flask_login import login_user, logout_user
+from app.model import UserRole
 @app.route("/")
 def index():
     cates = Dao.load_categoreis()
@@ -53,10 +54,18 @@ def register_process():
 
     return render_template("register.html", err_msg = err_msg)
 
+@app.route('/Login-admin', methods=['post'])
+def Login_admin_process():
+    username = request.form.get('username')
+    password = request.form.get('password')
+    u = Dao.auth_user(username=username, password=password, role = UserRole.ADMIN)
+    if u:
+        login_user(u)
+        return redirect('/admin')
 
 @login.user_loader
 def load_user(user_id):
     return Dao.get_user_by_id(user_id)
 if __name__ == '__main__':
-
+    from app import admin
     app.run(debug= True)
