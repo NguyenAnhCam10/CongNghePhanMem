@@ -1,6 +1,6 @@
 import math
 
-from flask import render_template, request, redirect
+from flask import render_template, request, redirect, jsonify, session
 from sqlalchemy.testing.provision import register
 
 from app import app, login
@@ -62,6 +62,28 @@ def Login_admin_process():
     if u:
         login_user(u)
         return redirect('/admin')
+@app.route('/api/carts', methods=['POST'])
+def ass_to_cart():
+    """
+    {
+        "1": {
+            "id" : "1",
+            "name": "iphone",
+            "price": 30,
+            "quantity": 2
+        }
+        "2": {
+            "id" : "2",
+            "name": "iphone",
+            "price": 30,
+            "quantity": 1
+        }
+    }
+    """
+    cart = session.get('cart')
+    if not cart:
+        cart ={}
+    return jsonify({})
 
 @login.user_loader
 def load_user(user_id):
